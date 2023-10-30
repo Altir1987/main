@@ -12,41 +12,78 @@ export default class SwapiService {
 
   async getAllPeople() {
     const res = await this.getResourse(`/people`);
-    return res.results;
+    return res.results.map(this._transformPerson);
   }
 
-  getPerson(id) {
-    return this.getResourse(`/people/${id}/`)
+  async getPerson(id) {
+    const person = await this.getResourse(`/people/${id}/`)
+    return this._transformPerson(person)
   }
 
 
   async getAllPlanet() {
     const res = await this.getResourse(`/planets`);
-    return res.results;
+    return res.results.map(this._transformPlanet);
   }
 
-  getPlanet(id) {
-    return this.getResourse(`/planets/${id}/`)
+  async getPlanet(id) {
+    const planet = await this.getResourse(`/planets/${id}/`)
+    console.log('_transformPlanet', this._transformPlanet(planet));
+    return this._transformPlanet(planet);
   }
   async getAllStarship() {
     const res = await this.getResourse(`/starships`);
-    return res.results;
+    return res.results.map(this._transformStarship);
   }
 
-  getStarsip(id) {
-    return this.getResourse(`/starships/${id}/`)
+  async getStarsip(id) {
+    const starship = await this.getResourse(`/starships/${id}/`)
+    return this._transformStarship(starship)
+  }
+  _extractId(planet){
+    const idRegExp = /\/([0-9]*)\/$/;
+    return planet.url.match(idRegExp)[1];
+
+  }
+
+
+  _transformPlanet(planet) {
+
+     return {
+      id: this._extractId(planet),
+      name: planet.name,
+      population: planet.population,
+      rotationPeriod: planet.rotation_period,
+      diameter: planet.diameter,
+    }
+  }
+  _transformStarship(starship) {
+    return {
+      id: this._extractId(starship),
+      name: starship.name,
+      model: starship.model,
+      manufacturer: starship.manufacturer,
+      costInCredits: starship.costInCredits,
+      length: starship.length,
+      crew: starship.crew,
+      passengers: starship.passengers,
+      cargoCapacity: starship.cargoCapacity
+    }
+  }
+  _transformPerson(person){
+    return{
+      id: this._extractId(person),
+      name: person.name,
+      gender: person.gender,
+      birthYear: person.birthYear,
+      eyeColor: person.eyeColor,
+
+    }
   }
 
 }
 
 
-
-const swapi = new SwapiService();
-swapi.getAllPlanet().then((planets) => {
-  planets.forEach((p) => {
-    console.log(p.name);
-  });
-});
 
 
 
