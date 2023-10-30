@@ -15,6 +15,8 @@ export default class RandomPlanet extends Component {
   constructor() {
     super();
     this.updatePlanet()
+    this.interval = setInterval(this.updatePlanet, 2500);
+    //clearInterval(this.interval);
   }
 
   onPlanetLoaded = (planet) => {
@@ -22,29 +24,28 @@ export default class RandomPlanet extends Component {
   };
 
   onError = (err) => {
-   this.setState({
-     error: true,
-     loading: false
-     }
-   )
+    this.setState({
+        error: true,
+        loading: false
+      }
+    )
   };
 
-  updatePlanet() {
-    const id = 15000;
+  updatePlanet = () => {
+    const id = Math.floor(Math.random() * 20) + 1;
     this.swapiService
       .getPlanet(id)
       .then(this.onPlanetLoaded)
       .catch(this.onError);
   }
 
-   render() {
-    const {planet, loading,error} = this.state
+  render() {
+    const {planet, loading, error} = this.state
 
-    const hasData= !(loading || error);
-    const errorMessage = error ? <ErrorIndicator/>: null;
-    const spinner = loading ? <Spinner/> : null;
-    const content = hasData ? <PlanetView planet={planet}/> : null;
-
+    const hasData = !(loading || error); //если нет загрузки и ошибки
+    const errorMessage = error ? <ErrorIndicator/> : null; // вывести сообщение об ошт+ибке загрузки данных
+    const spinner = loading ? <Spinner/> : null; // отобразить спиннер загрузки если идет загрузка данных с сервера
+    const content = hasData ? <PlanetView planet={planet}/> : null; //отобразить контент когда все загрузится и нет ошибок
 
     return (
       <div className="random-planet jumbotron rounded">
@@ -55,7 +56,6 @@ export default class RandomPlanet extends Component {
     );
   }
 }
-
 
 const PlanetView = ({planet}) => {
   const {id, name, population, rotationPeriod, diameter} = planet;
