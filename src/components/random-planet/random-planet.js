@@ -1,51 +1,60 @@
-import React, {Component, Fragment} from 'react';
+import React, { Component } from 'react';
+
+import Spinner from '../spinner';
+import ErrorIndicator from '../error-indicator';
 import SwapiService from "../../swapi-service/swapi-service";
-import Spinner from "../spinner/spinner";
+
 import './random-planet.css';
-import ErrorIndicator from "../error-indicator/error-indicator";
 
 export default class RandomPlanet extends Component {
-  swapiService = new SwapiService()
+
+  swapiService = new SwapiService();
+
   state = {
     planet: {},
-    loading: true,
-    error: false,
+    loading: true
+  };
+
+  componentDidMount() {
+    this.updatePlanet();
+    this.interval = setInterval(this.updatePlanet, 10000);
   }
 
-  constructor() {
-    super();
-    this.updatePlanet()
-    this.interval = setInterval(this.updatePlanet, 2500);
-    //clearInterval(this.interval);
+  componentWillUnmount() {
+    clearInterval(this.interval);
   }
 
   onPlanetLoaded = (planet) => {
-    this.setState({planet, loading: false,})
+    this.setState({
+      planet,
+      loading: false,
+      error: false
+    });
   };
 
   onError = (err) => {
     this.setState({
-        error: true,
-        loading: false
-      }
-    )
+      error: true,
+      loading: false
+    });
   };
 
   updatePlanet = () => {
-    const id = Math.floor(Math.random() * 20) + 1;
+    const id = Math.floor(Math.random()*17) + 2;
     this.swapiService
       .getPlanet(id)
       .then(this.onPlanetLoaded)
       .catch(this.onError);
-  }
+  };
 
   render() {
-    const {planet, loading, error} = this.state
+    const { planet, loading, error } = this.state;
 
-    const hasData = !(loading || error); //если нет загрузки и ошибки
-    const errorMessage = error ? <ErrorIndicator/> : null; // вывести сообщение об ошт+ибке загрузки данных
-    const spinner = loading ? <Spinner/> : null; // отобразить спиннер загрузки если идет загрузка данных с сервера
-    const content = hasData ? <PlanetView planet={planet}/> : null; //отобразить контент когда все загрузится и нет ошибок
+    const hasData = !(loading || error);
+
+    const errorMessage = error ? <ErrorIndicator/> : null;
+    const spinner = loading ? <Spinner /> : null;
+    const content = hasData ? <PlanetView planet={planet}/> : null;
 
     return (
       <div className="random-planet jumbotron rounded">
@@ -57,13 +66,16 @@ export default class RandomPlanet extends Component {
   }
 }
 
-const PlanetView = ({planet}) => {
-  const {id, name, population, rotationPeriod, diameter} = planet;
-  console.log(planet);
+const PlanetView = ({ planet }) => {
+
+  const { id, name, population,
+    rotationPeriod, diameter } = planet;
+
   return (
-    <Fragment>
+    <React.Fragment>
       <img className="planet-image"
-           src={`https://starwars-visualguide.com/assets/img/planets/${id}.jpg`}/>
+           src={`https://starwars-visualguide.com/assets/img/planets/${id}.jpg`}
+           alt="planet" />
       <div>
         <h4>{name}</h4>
         <ul className="list-group list-group-flush">
@@ -81,8 +93,6 @@ const PlanetView = ({planet}) => {
           </li>
         </ul>
       </div>
-    </Fragment>
-
-  )
-
-}
+    </React.Fragment>
+  );
+};
