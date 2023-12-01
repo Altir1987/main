@@ -8,12 +8,12 @@ import './random-planet.css';
 
 export default class RandomPlanet extends Component {
 
-  swapiService = new SwapiService();
+  swapiService = new SwapiService();//передаем в компоненту SwapiSevice
 
   state = {
     planet: {},
     loading: true
-  };
+  };//устанавливаем state данных planet и значение загрузки (loading)
 
   componentDidMount() {
     this.updatePlanet();
@@ -37,7 +37,7 @@ export default class RandomPlanet extends Component {
       error: true,
       loading: false
     });
-  };
+  }; //ловим ошибку при загрузке
 
   updatePlanet = () => {
     const id = Math.floor(Math.random()*17) + 2;
@@ -45,7 +45,7 @@ export default class RandomPlanet extends Component {
       .getPlanet(id)
       .then(this.onPlanetLoaded)
       .catch(this.onError);
-  };
+  }; //рандомное обновление планеты
 
   render() {
     const { planet, loading, error } = this.state;
