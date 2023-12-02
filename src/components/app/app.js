@@ -1,66 +1,42 @@
 import React, {Component} from 'react';
-import ItemList from "../item-list/item-list";
 import SwapiService from "../../swapi-service/swapi-service";
 import Header from '../header';
 import RandomPlanet from '../random-planet';
-import errorButton from "../error-button";
-import ErrorIndicator from "../error-indicator";
 import {SwapiServiceProvider} from "../swapi-contex/swapi-context";
-import Row from "../row/row";
-
-
+import OtherService from "../../swapi-service/otherService";
+import PeoplePage from "../pages/people-page";
+import StarshipsPage from "../pages/starships-page";
 import './app.css';
 import ErrorBoundry from "../ErroBoundry/error-boundry";
-import {PersonDetails, PersonList, PlanetDetails, PlanetList, StarshipDetails, StarshipList} from "../sw-components";
+import PlanetPage from "../pages/planet-page";
 
 
 export default class App extends Component {
-
-  swapiSevice = new SwapiService()
-
   state = {
-    showRandomPlanet: true
+    swapiSevice: new SwapiService()
   };
-
-  toggleRandomPlanet = () => {
-    this.setState((state) => {
-      return {
-        showRandomPlanet: !state.showRandomPlanet
+  onServiceChange = () => {
+    this.setState(({swapiService})=>{
+      const Service = swapiService instanceof SwapiService ? OtherService :SwapiService;
+      console.log("Switch to", Service.name)
+      return{
+        swapiService: new Service()
       }
     });
-  };
-
+  }
 
   render() {
-
-    const planet = this.state.showRandomPlanet ?
-      <RandomPlanet/> :
-      null;
-
-
     return (
       <ErrorBoundry>
-         <SwapiServiceProvider value={this.swapiSevice}>
+         <SwapiServiceProvider value={this.state.swapiSevice}>
            <div className="stardb-app">
-             <Header/>
+             <Header onServiceChange={this.onServiceChange}/>
              <RandomPlanet/>
-             <Row
-               left={<PersonDetails itemId={11}/>}
-               right={<PersonList/>}
-             />
-             <Row
-               left={<PlanetDetails itemId={6}/>}
-               right={<PlanetList/>}
-             />
-             <Row
-               left={<StarshipDetails itemId={5}/>}
-               right={<StarshipList/>}
-             />
+             <PeoplePage/>
+             <PlanetPage/>
+             <StarshipsPage/>
            </div>
          </SwapiServiceProvider>
-
-
-
       </ErrorBoundry>
     );
   }

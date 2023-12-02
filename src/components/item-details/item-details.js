@@ -28,8 +28,10 @@ export default class ItemDetails extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.itemId !== prevProps.itemId) {
-      this.updatePerson();
+    if (this.props.itemId !== prevProps.itemId ||
+        this.props.getData !== prevProps.getData ||
+        this.props.getImageUrl !== prevProps.getImageUrl) {
+      this.updateItem();
     }
   }
 
@@ -47,7 +49,7 @@ export default class ItemDetails extends Component {
         });
       });
   }
-
+  //This will allow us to switch between data service providers.
   render() {
 
     const { item, image } = this.state;
