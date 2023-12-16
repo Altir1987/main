@@ -4,7 +4,7 @@ import React, {Component} from "react";
 
 export default class PlanetPage extends Component {
   state = {
-   selectedItem: null
+   selectedItem: 1
   }
   onItemSelected = (selectedItem)=> {
     this.setState({selectedItem})

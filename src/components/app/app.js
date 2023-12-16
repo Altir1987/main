@@ -9,6 +9,7 @@ import StarshipsPage from "../pages/starships-page";
 import './app.css';
 import ErrorBoundry from "../ErroBoundry/error-boundry";
 import PlanetPage from "../pages/planet-page";
+import {BrowserRouter as Router, Routes, Route, Outlet} from "react-router-dom";
 
 
 export default class App extends Component {
@@ -27,17 +28,33 @@ export default class App extends Component {
 
   render() {
     return (
-      <ErrorBoundry>
-         <SwapiServiceProvider value={this.state.swapiSevice}>
-           <div className="stardb-app">
-             <Header onServiceChange={this.onServiceChange}/>
-             <RandomPlanet/>
-             <PeoplePage/>
-             <PlanetPage/>
-             <StarshipsPage/>
-           </div>
-         </SwapiServiceProvider>
-      </ErrorBoundry>
+      <Router>
+        <ErrorBoundry>
+          <SwapiServiceProvider value={this.state.swapiSevice}>
+            <div className="stardb-app">
+              <Header onServiceChange={this.onServiceChange} />
+              <RandomPlanet />
+              <Routes>
+                <Route path="/people" element={<PeoplePage />} />
+                <Route path="/planets" element={<PlanetPage />} />
+                <Route path="/starships" element={<StarshipsPage />} />
+                {/* Используйте Outlet для вложенных маршрутов */}
+                <Route
+                  path=""
+                  element={
+                    <Outlet>
+                      <Route path="people" element={<PeoplePage />} />
+                      <Route path="planets" element={<PlanetPage />} />
+                      <Route path="starships" element={<StarshipsPage />} />
+                    </Outlet>
+                  }
+                />
+              </Routes>
+            </div>
+          </SwapiServiceProvider>
+        </ErrorBoundry>
+      </Router>
+
     );
   }
 }
