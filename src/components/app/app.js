@@ -28,32 +28,24 @@ export default class App extends Component {
 
   render() {
     return (
-      <Router>
+
         <ErrorBoundry>
           <SwapiServiceProvider value={this.state.swapiSevice}>
+            <Router>
             <div className="stardb-app">
               <Header onServiceChange={this.onServiceChange} />
               <RandomPlanet />
               <Routes>
-                <Route path="/people" element={<PeoplePage />} />
-                <Route path="/planets" element={<PlanetPage />} />
-                <Route path="/starships" element={<StarshipsPage />} />
-                {/* Используйте Outlet для вложенных маршрутов */}
-                <Route
-                  path=""
-                  element={
-                    <Outlet>
-                      <Route path="people" element={<PeoplePage />} />
-                      <Route path="planets" element={<PlanetPage />} />
-                      <Route path="starships" element={<StarshipsPage />} />
-                    </Outlet>
-                  }
-                />
+                   <Route path="/" element={<h2>Welcome to StarDB</h2>}/>
+                   <Route path="/people" element={<PeoplePage/>}/>
+                   <Route path="/planets" element={<PlanetPage/>}/>
+                   <Route path="/starships" element={<StarshipsPage/>}/>
               </Routes>
             </div>
+            </Router>
           </SwapiServiceProvider>
         </ErrorBoundry>
-      </Router>
+
 
     );
   }
