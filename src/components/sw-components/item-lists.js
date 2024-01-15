@@ -3,6 +3,7 @@ import {withData, withSwapiService} from "../hoc-helpers"
 import itemList from "../item-list";
 import compose from "../hoc-helpers/compose";
 import withChildFunction from "../hoc-helpers/with-child-function";
+import {Link} from "react-router-dom";
 
 
 const renderName = ({name}) => <span>{name}</span>;

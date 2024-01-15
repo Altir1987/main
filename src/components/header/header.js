@@ -24,6 +24,12 @@ const Header = ({ onServiceChange }) => {
         <li>
           <Link to="/starships" onClick={() => handleLinkClick('/starships')}>Starships</Link>
         </li>
+        <li>
+        <Link to="/login" onClick={() => handleLinkClick("/login")}>Login</Link>
+        </li>
+        <li>
+          <Link to="/secret" onClick={() => handleLinkClick('/secret')}>Secret</Link>
+        </li>
       </ul>
       {/* Outlet для вложенных маршрутов */}
       <Outlet />

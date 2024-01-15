@@ -4,20 +4,24 @@ import React, {Component} from "react";
 
 export default class PlanetPage extends Component {
   state = {
-   selectedItem: 1
+    selectedItem: 1
   }
-  onItemSelected = (selectedItem)=> {
+  onItemSelected = (selectedItem) => {
     this.setState({selectedItem})
   }
-  render() {
-    const {selectedItem}=this.state
-    return(
-      <Row
-        left={<PlanetDetails itemId={selectedItem}/>}
-        right={<PlanetList onItemSelected={this.onItemSelected}/>}
-      />
 
+  render() {
+    const {selectedItem} = this.state
+    return (
+      <div>
+        <h2>Planet</h2>
+        <Row
+          left={<PlanetDetails itemId={selectedItem}/>}
+          right={<PlanetList onItemSelected={this.onItemSelected}/>}
+        />
+      </div>
     )
+
   }
 }
 

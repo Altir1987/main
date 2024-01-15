@@ -1,21 +1,10 @@
-import React,{Component} from "react";
-import {StarshipDetails, StarshipList} from "../sw-components";
-import Row from "../row/row";
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { StarshipList } from "../sw-components";
 
-export default class StarshipsPage extends Component {
-  state = {
-    selectedItem: 3
-  }
-  onItemSelected = (selectedItem)=> {
-    this.setState({selectedItem})
-  }
-  render() {
-    const {selectedItem}=this.state
-    return (
-      <Row
-        left={<StarshipDetails itemId={selectedItem}/>}
-        right={<StarshipList onItemSelected={this.onItemSelected}/>}
-      />
-    );
-  }
-}
+const StarshipsPage = () => {
+  const navigate = useNavigate();
+  return <StarshipList onItemSelected={(itemId) => navigate(`/starships/${itemId}`)} />
+};
+
+export default StarshipsPage;
