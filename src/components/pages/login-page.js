@@ -7,12 +7,12 @@ const LoginPage = ({ isLoggedIn, onLogin }) => {
   const handleLogin = () => {
     onLogin();
     // После успешного входа перенаправляем на страницу SecretPage
-    navigate('/secret');
+    navigate('/');
   };
 
   // Если пользователь уже вошел, перенаправляем на страницу SecretPage
   if (isLoggedIn) {
-    navigate('/secret');
+    navigate('/');
     return null; // Можно вернуть null, так как компонент LoginPage не должен ничего рендерить в этом случае
   }
 

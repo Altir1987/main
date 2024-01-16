@@ -4,7 +4,11 @@ import { StarshipList } from "../sw-components";
 
 const StarshipsPage = () => {
   const navigate = useNavigate();
-  return <StarshipList onItemSelected={(itemId) => navigate(`/starships/${itemId}`)} />
+  return (
+    <div>
+      <h3>Starships </h3>
+      <StarshipList onItemSelected={(itemId) => navigate(`/starships/${itemId}`)} />
+  </div>)
 };
 
 export default StarshipsPage;
